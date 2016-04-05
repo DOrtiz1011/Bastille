@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -20,7 +21,35 @@ namespace Bastille
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            UrlData.SaveUrl(UserTokenTextBox.Text, UrlTextBox.Text);
+            try
+            {
+                UrlData.SaveUrl(UserTokenTextBox.Text, UrlTextBox.Text);
+            }
+            catch (Exception exception)
+            {
+                OutputTextBox.Text = exception.Message;
+            }
+        }
+
+        private void UnitTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            var urlDataUnitTests = new UrlDataUnitTests();
+            var success = true;
+
+            try
+            {
+                urlDataUnitTests.RunAllUnitTests();
+            }
+            catch (Exception exception)
+            {
+                OutputTextBox.Text = exception.Message;
+                success = false;
+            }
+
+            if (success)
+            {
+                OutputTextBox.Text = "All unit tests passed.";
+            }
         }
     }
 }

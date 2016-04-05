@@ -16,14 +16,6 @@ namespace Bastille
         /// <returns></returns>
         public bool SaveUrl(string userToken, string url)
         {
-            //if (string.IsNullOrEmpty(userToken))
-            //{
-            //    throw new ArgumentNullException("userToken");
-            //}
-            //if (string.IsNullOrEmpty(url))
-            //{
-            //    throw new ArgumentNullException("url");
-            //}
             IsStringParameterValid("userToken", userToken);
             IsStringParameterValid("url", url);
 
@@ -83,7 +75,27 @@ namespace Bastille
 
             var usersByDomain = default(IEnumerable<string>);
 
+            if (DomainHash.ContainsKey(domain))
+            {
+                usersByDomain = DomainHash[domain];
+            }
+
             return usersByDomain;
+        }
+
+        public void ClearData()
+        {
+            if (_userHash != null)
+            {
+                _userHash.Clear();
+                _userHash = null;
+            }
+
+            if (_domainHash != null)
+            {
+                _domainHash.Clear();
+                _domainHash = null;
+            }
         }
 
         #endregion Public Methods
@@ -97,7 +109,7 @@ namespace Bastille
 
         #region Properties
 
-        private Dictionary<string, List<string>> UserHash
+        public Dictionary<string, List<string>> UserHash
         {
             get
             {
@@ -110,7 +122,7 @@ namespace Bastille
             }
         }
 
-        private Dictionary<string, List<string>> DomainHash
+        public Dictionary<string, List<string>> DomainHash
         {
             get
             {
@@ -226,7 +238,7 @@ namespace Bastille
             }
         }
 
-        private string GetDomain(string url)
+        public string GetDomain(string url)
         {
             var uri = default(Uri);
 
