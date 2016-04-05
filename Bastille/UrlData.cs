@@ -16,6 +16,14 @@ namespace Bastille
         /// <returns></returns>
         public bool SaveUrl(string userToken, string url)
         {
+            //if (string.IsNullOrEmpty(userToken))
+            //{
+            //    throw new ArgumentNullException("userToken");
+            //}
+            //if (string.IsNullOrEmpty(url))
+            //{
+            //    throw new ArgumentNullException("url");
+            //}
             IsStringParameterValid("userToken", userToken);
             IsStringParameterValid("url", url);
 
@@ -220,9 +228,18 @@ namespace Bastille
 
         private string GetDomain(string url)
         {
-            var uri = new Uri(url);
-            string host = uri.Host;
-            return host.Replace("www.", string.Empty);
+            var uri = default(Uri);
+
+            try
+            {
+                uri =  new Uri(url);
+            }
+            catch (Exception exception)
+            {
+                throw new ArgumentException(string.Format("'{0}' is not a valid URL format.", exception));
+            }
+
+            return uri.Host;
         }
 
         #endregion Private Methods
