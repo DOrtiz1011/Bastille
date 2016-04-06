@@ -298,7 +298,7 @@ namespace Bastille
             }
             catch (Exception exception)
             {
-                throw new ArgumentException(string.Format("'{0}' is not a valid URL format.", exception));
+                throw new ArgumentException(string.Format("'{0}' is not a valid URL format.", url), exception);
             }
 
             return uri.Host;
